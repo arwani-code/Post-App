@@ -8,17 +8,17 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Entity(tableName = "posts")
-data class PostEntity(
+data class PostsEntity(
     @field:PrimaryKey(autoGenerate = true)
     @field:ColumnInfo(name = "id")
     val id: Int = 0,
 
     @field:ColumnInfo(name = "name")
-    val name: String,
+    var name: String,
 
     @field:ColumnInfo(name = "email")
-    val email: String,
+    var email: String,
 
     @field:ColumnInfo(name = "body")
-    val body: String
+    var body: String
 ) : Parcelable
