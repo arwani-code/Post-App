@@ -2,8 +2,8 @@ package com.arwani.ahmad.postapp.di
 
 import android.content.Context
 import androidx.room.Room
-import com.arwani.ahmad.postapp.data.local.room.PostDao
-import com.arwani.ahmad.postapp.data.local.room.PostDatabase
+import com.arwani.ahmad.postapp.data.local.room.PostsDao
+import com.arwani.ahmad.postapp.data.local.room.PostsDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,17 +19,17 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideDatabase(@ApplicationContext context: Context): PostDatabase {
+    fun provideDatabase(@ApplicationContext context: Context): PostsDatabase {
         val passphrase: ByteArray = SQLiteDatabase.getBytes("postscomments".toCharArray())
         val factory = SupportFactory(passphrase)
 
         return Room.databaseBuilder(
             context,
-            PostDatabase::class.java,
+            PostsDatabase::class.java,
             "Posts.Db"
-        ).fallbackToDestructiveMigration().openHelperFactory(factory).build()
+        ).fallbackToDestructiveMigration().build()
     }
 
     @Provides
-    fun provideDao(database: PostDatabase): PostDao = database.postsDao()
+    fun provideDao(database: PostsDatabase): PostsDao = database.postsDao()
 }
