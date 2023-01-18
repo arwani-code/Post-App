@@ -21,6 +21,7 @@ class HomeViewModel @Inject constructor(private val postsRepository: PostsReposi
 
     val getPosts = postsRepository.getPostsData().asLiveData()
 
+
     fun fetchPosts() {
         viewModelScope.launch {
             postsRepository.getPostsResponse()

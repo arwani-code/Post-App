@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -23,16 +24,17 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.arwani.ahmad.postapp.ui.component.ListColumnPosts
 
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
-    navController: NavHostController
+    navController: NavHostController,
+    searchViewModel: SearchViewModel = hiltViewModel()
 ) {
-    var value by rememberSaveable {
-        mutableStateOf("")
-    }
+    val getPosts = searchViewModel.getPosts().collectAsState(initial = emptyList())
     val focusRequester = remember { FocusRequester() }
     val focusManager = LocalFocusManager.current
     LaunchedEffect(Unit) {
@@ -56,8 +58,8 @@ fun SearchScreen(
                         )
                     }
                     OutlinedTextField(
-                        value = value,
-                        onValueChange = { value = it },
+                        value = searchViewModel.query,
+                        onValueChange = { searchViewModel.updateUserPosts(it) },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                         modifier = modifier
                             .width(300.dp)
@@ -90,8 +92,8 @@ fun SearchScreen(
                             onDone = { focusManager.clearFocus() }
                         ),
                         trailingIcon = {
-                            if (value.isNotEmpty()) {
-                                IconButton(onClick = { value = "" }) {
+                            if (searchViewModel.query.isNotEmpty()) {
+                                IconButton(onClick = { searchViewModel.setEmptyQuery() }) {
                                     Icon(
                                         imageVector = Icons.Default.Clear,
                                         contentDescription = "Clear",
@@ -110,7 +112,9 @@ fun SearchScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-
+            if (getPosts.value.isNotEmpty()) {
+                ListColumnPosts(listPost = getPosts.value, navController = navController)
+            }
         }
     }
 }

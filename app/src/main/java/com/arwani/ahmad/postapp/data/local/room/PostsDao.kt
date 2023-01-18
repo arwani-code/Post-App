@@ -21,4 +21,7 @@ interface PostsDao {
 
     @Delete
     suspend fun deletePosts(posts: PostsEntity)
+
+    @Query("SELECT * FROM POSTS WHERE name LIKE :name")
+    fun searchPosts(name: String): Flow<List<PostsEntity>>
 }

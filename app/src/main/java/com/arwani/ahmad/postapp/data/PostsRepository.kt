@@ -29,4 +29,6 @@ class PostsRepository @Inject constructor(
     suspend fun updatePosts(posts: PostsEntity) = postsDao.updatePosts(posts)
 
     suspend fun deletePosts(posts: PostsEntity) = postsDao.deletePosts(posts)
+
+    fun searchPosts(name: String): Flow<List<PostsEntity>> = postsDao.searchPosts(name)
 }
