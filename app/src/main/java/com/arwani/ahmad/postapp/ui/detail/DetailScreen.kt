@@ -66,7 +66,6 @@ fun DetailScreen(
                 IconButton(onClick = {
                     detailViewModel.deletePosts(posts = posts)
                     navController.navigateUp()
-                    mToast(context, "successfully delete posts")
                 }) {
                     Icon(
                         imageVector = Icons.Default.Delete,
