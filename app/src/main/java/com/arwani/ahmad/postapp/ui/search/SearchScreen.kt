@@ -67,7 +67,7 @@ fun SearchScreen(
                         shape = RoundedCornerShape(percent = 30),
                         placeholder = {
                             Text(
-                                text = "Search title ...",
+                                text = "Search name ...",
                                 fontSize = 16.sp,
                                 color = Color.White.copy(0.4f)
                             )

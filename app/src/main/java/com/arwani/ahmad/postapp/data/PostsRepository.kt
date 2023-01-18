@@ -23,4 +23,10 @@ class PostsRepository @Inject constructor(
         }
         postsDao.insertPosts(newPosts)
     }
+
+    suspend fun insertPosts(posts: PostsEntity) = postsDao.insert(posts)
+
+    suspend fun updatePosts(posts: PostsEntity) = postsDao.updatePosts(posts)
+
+    suspend fun deletePosts(posts: PostsEntity) = postsDao.deletePosts(posts)
 }

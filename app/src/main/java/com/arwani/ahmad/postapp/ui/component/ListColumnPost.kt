@@ -63,7 +63,7 @@ fun PostsItem(
             )
             Divider(color = Color.Black)
             Text(
-                text = posts.body.substring(endIndex = 50, startIndex = 0),
+                text = posts.body,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 color = Color.Black.copy(0.4f)

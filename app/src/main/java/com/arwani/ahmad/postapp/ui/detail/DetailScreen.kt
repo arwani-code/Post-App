@@ -1,5 +1,7 @@
 package com.arwani.ahmad.postapp.ui.detail
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -10,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -33,6 +36,7 @@ fun DetailScreen(
     var body by remember {
         mutableStateOf(posts.body + "")
     }
+    val context = LocalContext.current
     Scaffold(
         topBar = {
             Row(
@@ -59,7 +63,11 @@ fun DetailScreen(
                         color = Color.White
                     )
                 }
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = {
+                    detailViewModel.deletePosts(posts = posts)
+                    navController.navigateUp()
+                    mToast(context, "successfully delete posts")
+                }) {
                     Icon(
                         imageVector = Icons.Default.Delete,
                         contentDescription = "delete",
@@ -81,8 +89,35 @@ fun DetailScreen(
                 name = name,
                 email = email,
                 body = body,
-                canUpdatePosts = true
+                canUpdatePosts = true,
+                onUpdatePosts = {
+                    if (name.isNotEmpty() && email.isNotEmpty() && body.isNotEmpty()) {
+                        detailViewModel.updatePosts(
+                            PostsEntity(
+                                name = name,
+                                email = email,
+                                body = body,
+                                id = posts.id
+                            )
+                        )
+                        navController.navigateUp()
+                        mToast(
+                            context = context,
+                            message = "Successfully update posts"
+                        )
+                    } else {
+                        mToast(
+                            context = context,
+                            message = "Input cannot be left blank"
+                        )
+                    }
+                }
             )
         }
     }
+}
+
+
+private fun mToast(context: Context, message: String) {
+    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 }
