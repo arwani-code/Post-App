@@ -3,7 +3,8 @@ package com.arwani.ahmad.postapp.data
 import com.arwani.ahmad.postapp.data.local.entity.PostsEntity
 import com.arwani.ahmad.postapp.data.local.room.PostsDao
 import com.arwani.ahmad.postapp.data.network.retrofit.ApiService
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class PostsRepository @Inject constructor(
